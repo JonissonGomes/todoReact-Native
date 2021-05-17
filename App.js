@@ -1,49 +1,52 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList} from 'react-native'; 
-import { Ionicons} from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable'; /* Lib de animação */
+
 
 import TaskList from './src/components/TaskList'
 
-export default function App(){
+/* Criando componente animado */
+const AnimatedButton = Animatable.createAnimatableComponent(TouchableOpacity);
+
+export default function App() {
 
   /* Variaveis e funções */
   const [task, setTask] = useState([
-    { key: 1, task: 'Modificar tela de atendimento', hour: '24/05/21'},
-    { key: 2, task: 'Modificar banco de dados no PostgresSQL', hour: '25/12/21'},
-    { key: 3, task: 'Tocar a task SGTME 1837', hour: '17/05/21'},
-    { key: 4, task: 'Coda infinitamente', hour: '31/02/99'},
+    { key: 1, task: 'Modificar tela de atendimento', hour: '24/05/21' },
+    { key: 2, task: 'Modificar banco de dados no PostgresSQL', hour: '25/12/21' },
+    { key: 3, task: 'Tocar a task SGTME 1837', hour: '17/05/21' },
+    { key: 4, task: 'Coda infinitamente', hour: '31/02/99' },
   ]);
 
   /* View */
-  return(
+  return (
     <SafeAreaView style={styles.box}>
       <StatusBar backgroundColor="#171d33" barStyle="light-content" />
       <View style={styles.content}>
         <Text style={styles.titulo}>Lembretes</Text>
       </View>
 
-    {/* Lista */}
+      {/* Lista */}
+      <FlatList
+        style={styles.lista}
+        showsHorizontalScrollIndicator={false} /* Desabilita a barra de rolagem */
+        data={task} /* Onde vai todos os itens da lista */
+        keyExtractor={(item) => String(item.key)} /* Chave do item */
+        renderItem={
+          ({ item }) => <TaskList data={item} />  /* Como vai ser renderizado o item */
+        }
+      />
 
-    <FlatList
-      style={styles.lista}
-      showsHorizontalScrollIndicator={false} /* Desabilita a barra de rolagem */
-      data={task} /* Onde vai todos os itens da lista */
-      keyExtractor={ (item) => String(item.key) } /* Chave do item */
-      renderItem={ 
-        ({ item }) => <TaskList data={item} />  /* Como vai ser renderizado o item */
-      }
-    />
 
-
-    {/* Icone Adicionar */}
-    <TouchableOpacity style={styles.iconAdd}>
-      <Ionicons name="ios-add" size={30} color="#171d33"/>
-    </TouchableOpacity>
+      {/* Icone Adicionar */}
+      <AnimatedButton style={styles.iconAdd} animation="bounceInUp" duration={2000} useNativeDriver>
+        <Ionicons name="ios-add" size={30} color="#171d33" />
+      </AnimatedButton>
 
     </SafeAreaView>
   );
 }
-
 
 /* Estilização */
 const styles = StyleSheet.create({
@@ -68,16 +71,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    /* Alinha o botão para baixo da tela */ 
-    right: 25, 
+    /* Alinha o botão para baixo da tela */
+    right: 25,
     bottom: 25,
     elevation: 2, /* Causa o efeito de sombreamento*/
     zIndex: 9,
     shadowColor: "#000",
     shadowOpacity: 0.2,
-    shadowOffset:{
-        width: 1,
-        height: 3,
+    shadowOffset: {
+      width: 1,
+      height: 3,
     }
   },
 
