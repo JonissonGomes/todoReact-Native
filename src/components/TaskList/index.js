@@ -1,11 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons' /* Lib de icones */
+import * as Animatable from 'react-native-animatable'; /* Lib de animação */
 
 
 export default function TaskList({ data }) {
     return(
-        <View style={styles.container}>
+        <Animatable.View 
+        style={styles.container}
+        animation="bounceIn" /* Animação de entrada */
+        useNativeDriver /* Usar a própria animação do dispositivo */
+        >
 
             <View style={styles.infoTask}>
                 <Text style={ styles.tituloTask}>{data.task}</Text>
@@ -15,7 +20,7 @@ export default function TaskList({ data }) {
             <TouchableOpacity style={styles.boxButton}>
                 <Ionicons name="md-checkmark-sharp" size={30} color="green"/>
             </TouchableOpacity>
-        </View>
+        </Animatable.View>
     );
 }
 
