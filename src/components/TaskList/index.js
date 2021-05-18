@@ -4,8 +4,9 @@ import { Ionicons } from '@expo/vector-icons' /* Lib de icones */
 import * as Animatable from 'react-native-animatable'; /* Lib de animação */
 
 
-export default function TaskList({ data }) {
+export default function TaskList({ data, deleteTask }) {
     const [checkbox, setCheckbox] = useState(false);
+
     return (
         <Animatable.View
             style={styles.container}
@@ -13,16 +14,24 @@ export default function TaskList({ data }) {
             useNativeDriver /* Usar a própria animação do dispositivo */
         >
 
+            {checkbox !== false &&
+                <TouchableOpacity style={styles.boxButtonComplete}>
+                    <Ionicons name="md-checkmark-sharp" size={30} color="green" />
+                </TouchableOpacity>
+            }
+
             <View style={styles.infoTask}>
                 <Text style={styles.tituloTask}>{data.task}</Text>
                 <Text style={styles.dateTask}>{data.hour}</Text>
             </View>
 
+
+
             {checkbox !== false &&
                 <TouchableOpacity
-                    style={styles.boxButton}
-                    onPress={() => setCheckbox(false)}>
-                    <Ionicons name="md-checkmark-sharp" size={30} color="green" />
+                    style={styles.boxButtonTrash}
+                    onPress={ () => deleteTask(data)}>
+                    <Ionicons name="md-trash-sharp" size={25} color="red" />
                 </TouchableOpacity>
             }
 
@@ -51,8 +60,8 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     infoTask: {
-        marginLeft: 5,
-        padding: 8
+        marginTop: 10,
+        padding: 5,
     },
     tituloTask: {
         fontSize: 14,
@@ -64,6 +73,14 @@ const styles = StyleSheet.create({
     },
     boxButton: {
         backgroundColor: '#F3F3F3',
+        marginRight: 10,
+    },
+
+    boxButtonComplete: {
+        marginLeft: 5,
+    },
+
+    boxButtonTrash: {
         marginRight: 10,
     }
 })
