@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable'; /* Lib de animação */
 
@@ -18,6 +18,8 @@ export default function App() {
     { key: 3, task: 'Tocar a task SGTME 1837', hour: '17/05/21' },
     { key: 4, task: 'Coda infinitamente', hour: '31/02/99' },
   ]);
+
+  const [openModal, setOpenModal] = useState(false);
 
   /* View */
   return (
@@ -38,9 +40,27 @@ export default function App() {
         }
       />
 
+      <Modal animationType="slide" transparent={false} visible={openModal}>
+        <SafeAreaView style={styles.box}>
+          <View>
+            <Text style={styles.titulo}>Criar tarefa</Text>
+          </View>
+
+          <TouchableOpacity style={styles.botaoFalso} onPress={ () => setOpenModal(false)}> 
+            <Text style={styles.textoBotao}>Voltar</Text>
+          </TouchableOpacity>
+
+
+        </SafeAreaView>
+      </Modal>
 
       {/* Icone Adicionar */}
-      <AnimatedButton style={styles.iconAdd} animation="bounceInUp" duration={2000} useNativeDriver>
+      <AnimatedButton
+        style={styles.iconAdd}
+        animation="bounceInUp"
+        duration={2000}
+        onPress={() => setOpenModal(true)}
+        useNativeDriver>
         <Ionicons name="ios-add" size={30} color="#171d33" />
       </AnimatedButton>
 
@@ -90,6 +110,21 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginRight: 10,
   },
+  botaoFalso: {
+    width: 70,
+    marginLeft: 170,
+    marginRight: 170,
+    padding: 5,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 5
+  },
+
+  textoBotao: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#171d33'
+  }
 
 
 })
