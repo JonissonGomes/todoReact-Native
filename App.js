@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable'; /* Lib de animação */
@@ -18,7 +18,7 @@ export default function App() {
   const [inputText, setInputText] = useState('');
 
 
-  function adicionarTaks() {
+  function adicionarTask() {
     if (inputText === '') {
       return;
     }
@@ -32,6 +32,11 @@ export default function App() {
     setOpenModal(false)
     setInputText('');
   }
+
+  const deleteTask = useCallback((data) => {
+    const find = task.filter(result => result.key !== data.key); /* Compara os o array antigo com o novo */
+    setTask(find);
+  });
 
   /* View */
   return (
@@ -48,7 +53,7 @@ export default function App() {
         data={task} /* Onde vai todos os itens da lista */
         keyExtractor={(item) => String(item.key)} /* Chave do item */
         renderItem={
-          ({ item }) => <TaskList data={item} />  /* Como vai ser renderizado o item */
+          ({ item }) => <TaskList data={item} deleteTask={deleteTask} />  /* Como vai ser renderizado o item */
         }
       />
 
@@ -71,7 +76,7 @@ export default function App() {
           </Animatable.View>
 
           {/* Botão de adicionar */}
-          <TouchableOpacity style={styles.botaoFalso} onPress={adicionarTaks}>
+          <TouchableOpacity style={styles.botaoFalso} onPress={adicionarTask}>
             <Text style={styles.textoBotao}>Adicionar</Text>
           </TouchableOpacity>
 
