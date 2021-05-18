@@ -12,16 +12,26 @@ const AnimatedButton = Animatable.createAnimatableComponent(TouchableOpacity);
 export default function App() {
 
   /* Variaveis e funções */
-  const [task, setTask] = useState([
-    { key: 1, task: 'Modificar tela de atendimento', hour: '24/05/21' },
-    { key: 2, task: 'Modificar banco de dados no PostgresSQL', hour: '25/12/21' },
-    { key: 3, task: 'Tocar a task SGTME 1837', hour: '17/05/21' },
-    { key: 4, task: 'Coda infinitamente', hour: '31/02/99' },
-  ]);
+  const [task, setTask] = useState([]);
 
   const [openModal, setOpenModal] = useState(false);
   const [inputText, setInputText] = useState('');
 
+
+  function adicionarTaks() {
+    if (inputText === '') {
+      return;
+    }
+
+    const data = {
+      key: inputText,
+      task: inputText
+    }
+
+    setTask([...task, data]); /* Adiciona o item ao array */
+    setOpenModal(false)
+    setInputText('');
+  }
 
   /* View */
   return (
@@ -48,22 +58,24 @@ export default function App() {
             <Text style={styles.titulo}>Criar tarefa</Text>
           </View>
 
+          {/* Input */}
           <Animatable.View animation="fadeInUp" useNativeDriver>
             <Text style={styles.stepName}>Título</Text>
-            <TextInput 
-            style={styles.inputText} 
-            value={inputText}
-            onChangeText={
-              (texto) => setInputText(texto)
-            }
+            <TextInput
+              style={styles.inputText}
+              value={inputText}
+              onChangeText={
+                (texto) => setInputText(texto)
+              }
             />
           </Animatable.View>
 
-
-          <TouchableOpacity style={styles.botaoFalso}>
+          {/* Botão de adicionar */}
+          <TouchableOpacity style={styles.botaoFalso} onPress={adicionarTaks}>
             <Text style={styles.textoBotao}>Adicionar</Text>
           </TouchableOpacity>
 
+          {/* Botão de voltar */}
           <TouchableOpacity style={styles.botaoFalso} onPress={() => setOpenModal(false)}>
             <Text style={styles.textoBotao}>Voltar</Text>
           </TouchableOpacity>
