@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal, Button } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar, TouchableOpacity, FlatList, Modal, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Animatable from 'react-native-animatable'; /* Lib de animação */
 
@@ -20,6 +20,8 @@ export default function App() {
   ]);
 
   const [openModal, setOpenModal] = useState(false);
+  const [inputText, setInputText] = useState('');
+
 
   /* View */
   return (
@@ -46,7 +48,23 @@ export default function App() {
             <Text style={styles.titulo}>Criar tarefa</Text>
           </View>
 
-          <TouchableOpacity style={styles.botaoFalso} onPress={ () => setOpenModal(false)}> 
+          <Animatable.View animation="fadeInUp" useNativeDriver>
+            <Text style={styles.stepName}>Título</Text>
+            <TextInput 
+            style={styles.inputText} 
+            value={inputText}
+            onChangeText={
+              (texto) => setInputText(texto)
+            }
+            />
+          </Animatable.View>
+
+
+          <TouchableOpacity style={styles.botaoFalso}>
+            <Text style={styles.textoBotao}>Adicionar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.botaoFalso} onPress={() => setOpenModal(false)}>
             <Text style={styles.textoBotao}>Voltar</Text>
           </TouchableOpacity>
 
@@ -110,11 +128,33 @@ const styles = StyleSheet.create({
     marginTop: 30,
     marginRight: 10,
   },
-  botaoFalso: {
-    width: 70,
-    marginLeft: 170,
-    marginRight: 170,
+
+  stepName: {
+    marginTop: 40,
+    marginBottom: 4,
+    fontSize: 14,
+    color: '#fff',
+    marginLeft: 100,
+    marginRight: 120
+  },
+
+  inputText: {
+    backgroundColor: '#fff',
+    width: 220,
     padding: 5,
+    paddingLeft: 10,
+    borderRadius: 5,
+    marginRight: 100,
+    marginLeft: 100,
+    marginBottom: 40,
+  },
+
+  botaoFalso: {
+    width: 150,
+    marginLeft: 140,
+    marginRight: 140,
+    marginBottom: 10,
+    padding: 8,
     alignItems: 'center',
     backgroundColor: '#fff',
     borderRadius: 5
@@ -122,7 +162,7 @@ const styles = StyleSheet.create({
 
   textoBotao: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
     color: '#171d33'
   }
 
