@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons' /* Lib de icones */
 import * as Animatable from 'react-native-animatable'; /* Lib de animação */
 
 
 export default function TaskList({ data }) {
-    return(
-        <Animatable.View 
-        style={styles.container}
-        animation="bounceIn" /* Animação de entrada */
-        useNativeDriver /* Usar a própria animação do dispositivo */
+    const [checkbox, setCheckbox] = useState(false);
+    return (
+        <Animatable.View
+            style={styles.container}
+            animation="bounceIn" /* Animação de entrada */
+            useNativeDriver /* Usar a própria animação do dispositivo */
         >
 
             <View style={styles.infoTask}>
-                <Text style={ styles.tituloTask}>{data.task}</Text>
-                <Text style={ styles.dateTask}>{data.hour}</Text>
+                <Text style={styles.tituloTask}>{data.task}</Text>
+                <Text style={styles.dateTask}>{data.hour}</Text>
             </View>
-            
-            <TouchableOpacity style={styles.boxButton}>
-                <Ionicons name="md-checkmark-sharp" size={30} color="green"/>
-            </TouchableOpacity>
+
+            {checkbox !== false &&
+                <TouchableOpacity
+                    style={styles.boxButton}
+                    onPress={() => setCheckbox(false)}>
+                    <Ionicons name="md-checkmark-sharp" size={30} color="green" />
+                </TouchableOpacity>
+            }
+
+            {checkbox !== true &&
+                <TouchableOpacity
+                    style={styles.boxButton}
+                    onPress={() => setCheckbox(true)}>
+                    <Ionicons name="md-square-sharp" size={30} color="#F3F3F3" />
+                </TouchableOpacity>
+            }
         </Animatable.View>
     );
 }
@@ -33,7 +46,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         justifyContent: 'space-between',
-        marginBottom: 5
+        marginBottom: 5,
+        padding: 8,
+        borderRadius: 5
     },
     infoTask: {
         marginLeft: 5,
@@ -48,7 +63,7 @@ const styles = StyleSheet.create({
         color: 'gray'
     },
     boxButton: {
-        backgroundColor: '#F2F2F2',
+        backgroundColor: '#F3F3F3',
         marginRight: 10,
     }
 })
